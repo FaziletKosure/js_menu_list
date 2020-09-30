@@ -83,6 +83,7 @@ const menu = [
 
 window.addEventListener("DOMContentLoaded",function() {
     displayMenuItems(menu);
+    displayCategoryItems();
     
 })
 const sectionElement=document.querySelector(".section-center");
@@ -106,4 +107,37 @@ function displayMenuItems(menuList) {
     });
     
    sectionElement.innerHTML=sectionContent; 
+}
+function displayCategoryItems() {
+    let categories =[];
+    let categoryContent=`<button type="button" class="filter-btn" data-id="all">all</button>`;
+    menu.forEach((item)=>{
+        const foodIndex=categories.indexOf(item.category);
+        if (foodIndex===-1) {
+            categories.push(item.category);
+        }
+    });
+    categories.forEach((category)=>{
+        categoryContent +=`<button type="button" class="filter-btn" data-id="${category}">${category}</button>`
+    });
+    categoryElement.innerHTML=categoryContent;
+    const filterButtons=document.querySelectorAll(".filter-btn");
+    filterButtons.forEach((button)=>{
+        //event
+        button.addEventListener("click",function (e) {
+            //yemek filtreleme islemi  gerceklesecek
+            const selectedCategoryName=e.target.getAttribute("data-id");
+            const filteredMenu=menu.filter((item)=>item.category===selectedCategoryName
+
+            );
+            console.log("selectedCategoryName: " + selectedCategoryName);
+            if(selectedCategoryName==="all"){
+                displayMenuItems(menu);
+            }else{
+                displayMenuItems(filteredMenu);
+            }
+            
+        });
+    });
+    
 }
